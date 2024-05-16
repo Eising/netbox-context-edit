@@ -31,3 +31,9 @@ As I am primarily using this for Ansible, YAML seems like a good fit.
 
 However, It's very easy to extend the code to use other formats, if anything
 more suited should be required.
+
+
+## TODO
+I haven't written any tests yet. That's the first item on the agenda.
+
+It's also possible that I will extend this to support more than just VMs.
