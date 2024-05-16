@@ -1,0 +1,29 @@
+[tool.poetry]
+name = "netbox-context-editor"
+version = "0.1.0"
+description = ""
+authors = ["Allan Eising <allan@eising.dk>"]
+readme = "README.md"
+
+
+[tool.poetry.scripts]
+netbox-vm-context = "netbox_context_editor.cli:cli"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+pynetbox = "^7.3.3"
+click = "^8.1.7"
+pyyaml = "^6.0.1"
+loguru = "^0.7.2"
+
+
+[tool.poetry.group.dev.dependencies]
+ruff = "^0.4.4"
+ruff-lsp = "^0.0.53"
+ipython = "^8.24.0"
+python-dotenv = "^1.0.1"
+python-lsp-server = {extras = ["all"], version = "^1.11.0"}
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
