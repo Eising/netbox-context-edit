@@ -66,7 +66,7 @@ def pull(
     if not url:
         url, _ = get_netbox()
     if not token:
-        token, _ = get_netbox()
+        _, token = get_netbox()
     context = NetboxYamlContex(destination, url, token, debug)
     context.write_to_dir()
 
@@ -110,7 +110,7 @@ def push(
     if not url:
         url, _ = get_netbox()
     if not token:
-        token, _ = get_netbox()
+        _, token = get_netbox()
     context = NetboxYamlContex(destination, url, token, debug)
     context.update_from_dir(dry_run=False)
 
