@@ -8,16 +8,19 @@ import pynetbox
 
 from loguru import logger
 
-logger.disable("main")
-
 
 class NetboxVMContextBase(ABC):
     """Abstract base class for managingt Netbox VM contexts."""
 
     file_extension: str
 
-    def __init__(self, directory: Path, netbox_url: str, netbox_api_key: str) -> None:
+    def __init__(
+        self, directory: Path, netbox_url: str, netbox_api_key: str, debug: bool = False
+    ) -> None:
         """Initialize netbox context base class."""
+        logger.disable(__name__)
+        if debug:
+            logger.enable(__name__)
         self.api = pynetbox.api(netbox_url, token=netbox_api_key)
         self.path = directory
         self._devices: dict[str, dict[str, Any]] | None = None
@@ -75,7 +78,7 @@ class NetboxVMContextBase(ABC):
         Return updated context dictionary if update is necessary.
         """
 
-    def update_from_dir(self, dry_run: bool = False) -> None:
+    def update_from_dir(self, dry_run: bool = False) -> list[Path]:
         """Read context from files."""
         changed: list[Path] = []
         for filename in self.path.glob(f"*.{self.file_extension}"):
@@ -93,3 +96,5 @@ class NetboxVMContextBase(ABC):
                         self._update_device(name, new_context)
                 else:
                     logger.debug(f"Device {name} was not updated.")
+
+        return changed

@@ -1,6 +1,7 @@
 """CLI script methods."""
 
 import os
+import sys
 from pathlib import Path
 from functools import wraps
 
@@ -29,6 +30,12 @@ def get_netbox() -> tuple[str, str]:
 
 @click.group()
 def cli():
+    """Manage the local configuration context of virtual machines in Netbox from your file system.
+
+    Netbox authentication can be provided either with the --url and --token
+    argments, or using the environment variables NETBOX_URL and NETBOX_API_TOKEN.
+    """
+
     pass
 
 
@@ -58,13 +65,11 @@ def pull(
     debug: bool = False,
 ) -> None:
     """Pull context data from netbox into a directory."""
-    if debug:
-        logger.enable("main")
     if not url:
         url, _ = get_netbox()
     if not token:
         token, _ = get_netbox()
-    context = NetboxYamlContex(destination, url, token)
+    context = NetboxYamlContex(destination, url, token, debug)
     context.write_to_dir()
 
 
@@ -77,14 +82,22 @@ def check(
     debug: bool = False,
 ) -> None:
     """Check if any files are updated."""
-    if debug:
-        logger.enable("main")
     if not url:
         url, _ = get_netbox()
     if not token:
-        token, _ = get_netbox()
-    context = NetboxYamlContex(destination, url, token)
-    context.update_from_dir(dry_run=True)
+        _, token = get_netbox()
+    context = NetboxYamlContex(destination, url, token, debug)
+    changed = context.update_from_dir(dry_run=True)
+    if changed:
+        click.echo("Files with updates:")
+        for filepath in changed:
+            click.echo(f"  - {filepath}")
+        click.echo()
+        scriptname = Path(sys.argv[0]).name
+        boldusage = click.style(f"{scriptname} push {destination}", bold=True)
+        click.echo(f"Run {boldusage} to push the changes to netbox.")
+    else:
+        click.echo("No changes detected!")
 
 
 @cli.command()
@@ -96,13 +109,11 @@ def push(
     debug: bool = False,
 ) -> None:
     """Write changes back to netbox."""
-    if debug:
-        logger.enable("main")
     if not url:
         url, _ = get_netbox()
     if not token:
         token, _ = get_netbox()
-    context = NetboxYamlContex(destination, url, token)
+    context = NetboxYamlContex(destination, url, token, debug)
     context.update_from_dir(dry_run=False)
 
 
