@@ -9,8 +9,6 @@ import click
 
 from .context_yaml import NetboxYamlContex
 
-from loguru import logger
-
 
 def get_netbox() -> tuple[str, str]:
     """Get netbox url and token."""
