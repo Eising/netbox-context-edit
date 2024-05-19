@@ -12,19 +12,6 @@ from .manager import NetboxContextManager
 from . import cli_commands
 
 
-# def virtual_machines(
-#     netbox_url: str, netbox_api_key: str, directory: Path
-# ) -> NetboxContextManager:
-#     """Create a manager for virtual machines outputting YAML."""
-#     return NetboxContextManager(
-#         netbox_url,
-#         netbox_api_key,
-#         directory,
-#         NetboxVM(netbox_url, netbox_api_key),
-#         NetboxYamlContext(directory),
-#     )
-
-
 FILE_HANDLER = NetboxYamlContext
 MODELS: dict[str, tuple[str, NetboxHandlerBase]] = {
     "vm": ("Virtual machines", NetboxVM)
