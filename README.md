@@ -3,7 +3,7 @@
 This script allows you to manage your netbox device's context directly in your
 file system.
 
-Instead of using the netbox UI to clumsily manage JSON in an HTML textfile, this
+Instead of using the netbox UI to clumsily manage JSON in an HTML textbox, this
 script will pull the local-context data for each of your nodes, convert it to
 YAML and store it in a directory of your choosing.
 
