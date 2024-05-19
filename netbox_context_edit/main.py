@@ -101,11 +101,9 @@ class NetboxFileHandlerBase(ABC):
             LOG.debug(f"Writing context to {filename.absolute()}")
             f.write(self._from_object(context))
 
-    def update_from_dir(
-        self, devices: dict[str, TContext], dry_run: bool = False
-    ) -> list[Path]:
+    def get_updated_from_dir(self, devices: dict[str, TContext]) -> dict[str, TContext]:
         """Read context from files."""
-        changed: list[Path] = []
+        changed: dict[Path, TContext] = {}
         for filename in self.directory.glob(f"*.{self.file_extension}"):
             with open(filename, "r", encoding="utf-8") as f:
                 rendered = f.read()
@@ -114,13 +112,7 @@ class NetboxFileHandlerBase(ABC):
                 if rendered != previous_rendered:
                     LOG.info(f"Found changes in context for {name}")
                     new_context = self._to_object(rendered)
-                    changed.append(filename)
-                    if not dry_run:
-                        LOG.info(
-                            f"Updating context of {name} from file "
-                            f"{filename.absolute()}"
-                        )
-                        self._update_device(name, new_context)
+                    changed[filename] = new_context
                 else:
                     LOG.debug(f"Device {name} was not updated.")
 

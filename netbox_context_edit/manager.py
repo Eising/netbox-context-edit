@@ -27,12 +27,14 @@ class NetboxContextManager:
 
     def check(self) -> list[Path]:
         """Check which files have been updated."""
-        return self.file_handler.update_from_dir(
-            self.object_context.as_dict(), dry_run=True
+        return list(
+            self.file_handler.get_updated_from_dir(self.object_context.as_dict()).keys()
         )
 
     def push(self) -> list[Path]:
         """Push updated contexts back to netbox."""
-        return self.file_handler.update_from_dir(
-            self.object_context.as_dict(), dry_run=False
-        )
+        changed = self.file_handler.get_updated_from_dir(self.object_context.as_dict())
+        for filename, context in changed.items():
+            node = filename.stem
+            self.object_context.update(context, name=node)
+        return list(changed.keys())
