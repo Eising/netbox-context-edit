@@ -60,7 +60,7 @@ def cli_context_to_netbox(ctx: click.Context, directory: Path) -> NetboxContextM
 )
 @click.pass_context
 def pull(ctx: click.Context, directory: Path) -> None:
-    """Pull config into directory."""
+    """Pull config into the specified directory."""
     netbox_context = cli_context_to_netbox(ctx, directory)
     netbox_context.pull()
     item = ctx.obj.get("ITEM", "object")
@@ -76,7 +76,7 @@ def pull(ctx: click.Context, directory: Path) -> None:
 )
 @click.pass_context
 def push(ctx: click.Context, directory: Path) -> None:
-    """Pull config into directory."""
+    """Pull config into the specified directory."""
     netbox_context = cli_context_to_netbox(ctx, directory)
     changed = netbox_context.push()
     items = ctx.obj.get("ITEMS", "objects")
@@ -90,7 +90,7 @@ def push(ctx: click.Context, directory: Path) -> None:
 )
 @click.pass_context
 def check(ctx: click.Context, directory: Path) -> None:
-    """Check for changes in the local directory."""
+    """Check for changes in the specified directory."""
     netbox_context = cli_context_to_netbox(ctx, directory)
     scriptname = Path(sys.argv[0]).name
     boldusage = click.style(
