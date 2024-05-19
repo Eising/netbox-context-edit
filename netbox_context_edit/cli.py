@@ -20,7 +20,7 @@ LOG.setLevel(logging.INFO)
 @click.option("--debug", is_flag=True, help="Enable debugging.")
 @click.pass_context
 def cli(ctx: click.Context, url: str, token: str, debug: bool) -> None:
-    """Root CLI group."""
+    """Manage netbox configuration contexts in your file system."""
     if debug:
         LOG.setLevel(logging.DEBUG)
 
