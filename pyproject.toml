@@ -7,7 +7,7 @@ readme = "README.md"
 
 
 [tool.poetry.scripts]
-netbox-vm-context = "netbox_context_edit.cli:cli"
+netbox-manage-context = "netbox_context_edit.cli:cli"
 
 [tool.poetry.dependencies]
 python = "^3.11"
