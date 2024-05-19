@@ -33,14 +33,17 @@ class NetboxObject:
 class NetboxHandlerBase(ABC):
     """Abstract strategy base class for fetching the right kind of object."""
 
-    def __init__(self, netbox_url: str, netbox_api_key: str) -> None:
+    def __init__(
+        self, netbox_url: str, netbox_api_key: str, test_mode: bool = False
+    ) -> None:
         """Initialize netbox context base class."""
         self.api = pynetbox.api(netbox_url, token=netbox_api_key)
-        api_status = self.api.status()
-        assert isinstance(api_status["netbox-version"], str), (
-            f"Could not read the Netbox API version from the server at {netbox_url}. "
-            "The host or api token may be wrong."
-        )
+        if not test_mode:
+            api_status = self.api.status()
+            assert isinstance(api_status["netbox-version"], str), (
+                f"Could not read the Netbox API version from the server at {netbox_url}. "
+                "The host or api token may be wrong."
+            )
 
     @abstractmethod
     def get_one(

@@ -15,9 +15,10 @@ class NetboxContextManager:
         directory: Path,
         netbox_object: Type[NetboxHandlerBase],
         file_handler: Type[NetboxFileHandlerBase],
+        test_mode: bool = False,
     ) -> None:
         """Initialize context manager."""
-        self.object_context = netbox_object(netbox_url, netbox_api_key)
+        self.object_context = netbox_object(netbox_url, netbox_api_key, test_mode)
         self.file_handler = file_handler(directory)
 
     def pull(self) -> dict[str, TContext]:
