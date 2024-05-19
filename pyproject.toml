@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "netbox-context-edit"
-version = "1.0.0"
-description = "Edit your Netbox managed VMs local config context in your filesystem."
+version = "1.0.1"
+description = "Edit your Netbox managed local config contexts in your filesystem."
 authors = ["Allan Eising <allan@eising.dk>"]
 readme = "README.md"
 repository = "https://github.com/Eising/netbox-context-edit"
