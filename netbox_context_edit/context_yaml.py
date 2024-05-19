@@ -1,30 +1,19 @@
 """YAML strategy."""
 
-from typing import Any
-from .main import NetboxVMContextBase
+from .main import NetboxFileHandlerBase, TContext
 
 import yaml
 
 
-class NetboxYamlContex(NetboxVMContextBase):
+class NetboxYamlContext(NetboxFileHandlerBase):
     """Manage netbox context as YAML."""
 
     file_extension = "yml"
 
-    def _parse_rendered(self, text: str) -> dict[str, Any]:
+    def _to_object(self, text: str) -> TContext:
         """Parse YAML into a context object."""
         return yaml.load(text, Loader=yaml.Loader)
 
-    def _render_context(self, context: dict[str, Any]) -> str:
+    def _from_object(self, context: TContext) -> str:
         """Render context object as YAML."""
         return yaml.dump(context)
-
-    def _get_updated_device_context(
-        self, name: str, rendered_context: str
-    ) -> dict[str, Any] | None:
-        """Get an updated context, if it has changed."""
-        context = self.devices[name]
-        old_rendered_context = self._render_context(context)
-        if old_rendered_context != rendered_context:
-            return self._parse_rendered(rendered_context)
-        return None
