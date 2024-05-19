@@ -94,7 +94,7 @@ def check(ctx: click.Context, directory: Path) -> None:
     netbox_context = cli_context_to_netbox(ctx, directory)
     scriptname = Path(sys.argv[0]).name
     boldusage = click.style(
-        f"{scriptname} push {ctx.obj['OBJ_TYPE']} {directory}", bold=True
+        f"{scriptname} {ctx.obj['OBJ_TYPE']} push {directory}", bold=True
     )
     changed = netbox_context.check()
     if len(changed) > 0:
