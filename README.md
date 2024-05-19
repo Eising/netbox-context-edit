@@ -102,7 +102,5 @@ more suited should be required.
 
 
 ## TODO
-I haven't written any tests yet. That's the first item on the agenda.
-
 Since I have laid the groundwork for extending to any object with a
 `local-context-data` attribute, I will add more types soon.
